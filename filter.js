@@ -158,7 +158,7 @@
                             </div>
                             <div style="width:100%" class="buttonInfo"> 
                                     <div class="inputBox">
-                                        <input type="tel" class="numericInput" value=` + window['currentRating'] + ` id="ab_player_rating" placeholder="5000"></div>
+                                        <input type="tel" class="numericInput" value=` + window['currentRating'] + ` id="ab_player_rating" placeholder="-1"></div>
                                     </div> 
                             </div>
                             <div style="width:100%" class="button-container"><button id="ab_setting_save" class="btn-standard call-to-action">Save</button></div>
