@@ -33,7 +33,7 @@
 * Download the latest release from - [Latest Release](https://github.com/chithakumar13/Fifa21-RatingFilter/releases/).
 * Add Tamper Monkey Extenstion to your Browser.
 * Navigate to Create Script -> Then to Utilities.
-* Under Utilities -> File (Import the script and Install it). 
+* Under Utilities -> File (Import the filter.js script and Install it). 
 
 Now in Ultimate Team Web App, under Settings Menu , you will have Rating Filter. 
 
