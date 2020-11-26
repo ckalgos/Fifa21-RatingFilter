@@ -36,7 +36,13 @@
 * Under Utilities -> File (Import the script and Install it). 
 
 Now in Ultimate Team Web App, under Settings Menu , you will have Rating Filter. 
- 
+
+<!-- Prerequisites -->
+## Prerequisites
+
+* To use this tool, the user should have access to the transfer market. 
+* Hence play the required number of games to get access to the transfer market before trying this tool. 
+
 <!-- CONTACT -->
 ## Contact
 
