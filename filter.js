@@ -26,7 +26,7 @@
         tx.executeSql('CREATE TABLE IF NOT EXISTS CurrentRating (rating)'); 
     });
      
-    window.currentRating = null; 
+    window.currentRating = ""; 
 
     db.transaction(function (tx) { 
         tx.executeSql('SELECT * FROM CurrentRating', [], function (tx, ratingResults) {
