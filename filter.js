@@ -40,37 +40,80 @@
         return Math.round((Math.random() * (max - min) + min));
     };
 
-    UTMarketSearchResultsViewController.prototype._requestItems = function _requestItems(l) {
-        if (l === 1) {
-            db.transaction(function (tx) {
-                tx.executeSql(`SELECT id FROM PlayerId WHERE (${this._searchCriteria.nation} IS -1 OR nationid = ${this._searchCriteria.nation}) AND
-                                                             (${this._searchCriteria.league} IS -1 OR leagueid = ${this._searchCriteria.league}) AND
-                                                             (${this._searchCriteria.club} IS -1 OR teamid = ${this._searchCriteria.club})`,
-                    [], function (tx, results) {
-                        let playerIds = [];
-                        for (let i = 0; i < results.rows.length; i++) {
-                            playerIds.push(results.rows[i].id);
-                        }
-
-                        if (playerIds.length) {
-                            this._searchCriteria.maskedDefId = playerIds[getRandNumber(0, playerIds.length - 1)];
-                        }
-
-                        if (window.currentRating && !this._searchCriteria.maskedDefId) {
-                            this._searchCriteria.maskedDefId = 1;
-                        }                         
-                        this._searchFut(l);
-                    }.bind(this))
-            }.bind(this))
-        } else {
-            this._searchFut(l);
+    UTItemService.prototype.searchTransferMarket = function searchTransferMarket(searchCriteria, pageNum, fromRequestItem, observable) {
+        var result = observable || new EAObservable();
+        if (!fromRequestItem && pageNum === 1) {
+            this.updateCriteria(searchCriteria, pageNum, result);
+            return result;
         }
+        var response = new UTServiceResponseDTO();
+        function successSearch(param1, successResult) {
+            param1.unobserve(this);
+            response.success = successResult.success;
+            response.status = successResult.status;
+            response.data = {};
+            response.data.items = successResult.response.items;
+            if (successResult.success && successResult.response.items.length > 0) {
+                this._marketRepository.setPageCache(pageNum, successResult.response.items, Date.now(), successResult.maxAge > 0 ? successResult.maxAge : null);
+            }
+            result.notify(response);
+        }
+        function refreshSuccess(currRefresh, refreshResult) {
+            currRefresh.unobserve(this);
+            response.success = !![];
+            response.status = refreshResult.success ? HttpStatusCode['OK'] : HttpStatusCode.NOT_MODIFIED;
+            response.data = {};
+            response.data.items = this._marketRepository.getPageCache(pageNum);
+            result.notify(response);
+        }
+        if (!this._marketRepository.isCacheExpired(pageNum)) {
+            var currPageCache = this._marketRepository.getPageCache(pageNum);
+            if (currPageCache.length > 0) {
+                this.refreshAuctions(currPageCache).observe(this, refreshSuccess);
+            } else {
+                response.success = !![];
+                response.status = HttpStatusCode.NOT_MODIFIED;
+                response.data = {};
+                response.data.items = currPageCache;
+                result.notify(response);
+            }
+        } else {
+            var currConfigObj = gConfigurationModel.getConfigObject(models.ConfigurationModel.KEY_ITEMS_PER_PAGE);
+            var currItemCount = utils.JS.isValid(currConfigObj) ? currConfigObj[models.ConfigurationModel.ITEMS_PER_PAGE.TRANSFER_MARKET] : 20;
+            searchCriteria.offset = currItemCount * (pageNum - 1);
+            searchCriteria.count = currItemCount + 1;
+            accessobjects.Item.searchTransferMarket(searchCriteria).observe(this, successSearch);
+        }
+        return result;
+    }
+
+    UTItemService.prototype.updateCriteria = function updateCriteria(searchCriteria, l, result) {
+        db.transaction(function (tx) {
+            tx.executeSql(`SELECT id FROM PlayerId WHERE (${searchCriteria.nation} IS -1 OR nationid = ${searchCriteria.nation}) AND
+                                                             (${searchCriteria.league} IS -1 OR leagueid = ${searchCriteria.league}) AND
+                                                             (${searchCriteria.club} IS -1 OR teamid = ${searchCriteria.club})`,
+                [], function (tx, results) {
+                    let playerIds = [];
+                    for (let i = 0; i < results.rows.length; i++) {
+                        playerIds.push(results.rows[i].id);
+                    }
+
+                    if (playerIds.length) {
+                        searchCriteria.maskedDefId = playerIds[getRandNumber(0, playerIds.length - 1)];
+                    }
+
+                    if (window.currentRating && !searchCriteria.maskedDefId) {
+                        searchCriteria.maskedDefId = 1;
+                    }
+                    this.searchTransferMarket(searchCriteria, l, true, result);
+                }.bind(this))
+        }.bind(this));
     };     
 
     UTMarketSearchResultsViewController.prototype._searchFut = function (l) { 
 
         this._paginationViewModel.stopAuctionUpdates(),
-            services.Item.searchTransferMarket(this._searchCriteria, l).observe(this, function _onRequestItemsComplete(e, t) {                 
+            services.Item.searchTransferMarket(this._searchCriteria, l,true).observe(this, function _onRequestItemsComplete(e, t) {                 
                 if (e.unobserve(this),
                     !t.success)
                     return NetworkErrorManager.checkCriticalStatus(t.status) ? void NetworkErrorManager.handleStatus(t.status) : (services.Notification.queue([services.Localization.localize("popup.error.searcherror"), enums.UINotificationType.NEGATIVE]),
