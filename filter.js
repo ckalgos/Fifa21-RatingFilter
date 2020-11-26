@@ -31,7 +31,7 @@
     db.transaction(function (tx) { 
         tx.executeSql('SELECT * FROM CurrentRating', [], function (tx, ratingResults) {
             if (ratingResults.rows.length) {
-                window.currentRating = ratingResults.rows[0].rating; 
+                window.currentRating = ratingResults.rows[0].rating || ""; 
             }
         }, null); 
     });
