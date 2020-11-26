@@ -51,7 +51,10 @@
                         for (let i = 0; i < results.rows.length; i++) {
                             playerIds.push(results.rows[i].id);
                         }
-                        this._searchCriteria.maskedDefId = playerIds[getRandNumber(0, playerIds.length - 1)]; 
+
+                        if (playerIds.length) {
+                            this._searchCriteria.maskedDefId = playerIds[getRandNumber(0, playerIds.length - 1)];
+                        }
 
                         if (window.currentRating && !this._searchCriteria.maskedDefId) {
                             this._searchCriteria.maskedDefId = 1;
@@ -105,38 +108,14 @@
                 }
                 this._paginationViewModel.startAuctionUpdates()
             });
-    } 
-
-    window.updateObject = function (defaultObject) {
-        for (var i = 1; i < arguments.length; i++) {
-            for (var prop in arguments[i]) {
-                var val = arguments[i][prop];
-                if (typeof val == "object")
-                    updateObject(defaultObject[prop], val);
-                else
-                    defaultObject[prop] = val;
-            }
-        }
-        return defaultObject;
-    } 
+    }  
 
     window.UTSnipeFilterViewController = function () {
         UTAppSettingsViewController.call(this);
         this._jsClassName = 'UTSnipeFilterViewController';
     };
 
-    utils.JS.inherits(UTSnipeFilterViewController, UTAppSettingsViewController);
-    //window.UTSnipeFilterViewController.prototype.init = function () {
-    //    if (!this.initialized) {
-    //        this._viewmodel || (this._viewmodel = new viewmodels.BucketedItemSearch), this._viewmodel.searchCriteria.type === enums.SearchType.ANY && (this._viewmodel.searchCriteria.type = enums.SearchType.PLAYER);
-    //        var _0x4661xd = gConfigurationModel.getConfigObject(models.ConfigurationModel.KEY_ITEMS_PER_PAGE),
-    //            _0x4661x14 = 1 + (utils.JS.isValid(_0x4661xd) ? _0x4661xd[models.ConfigurationModel.ITEMS_PER_PAGE.TRANSFER_MARKET] : 15);
-    //        this._viewmodel.searchCriteria.count = _0x4661x14, this._viewmodel.searchFeature = enums.ItemSearchFeature.MARKET;
-    //        var view = this.getView();
-    //        view.__root = addFilterFields();
-    //    }
-    //};
-
+    utils.JS.inherits(UTSnipeFilterViewController, UTAppSettingsViewController); 
 
     window.snipeFilterInterface = function () {
         if (services.Localization && jQuery('h1.title').html() === services.Localization.localize("navbar.label.home")) {
