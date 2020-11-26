@@ -24,7 +24,9 @@
 ## Table of Contents
 
 * [Installation](#installation)  
-* [Prerequisites](#prerequisites)   
+* [Prerequisites](#prerequisites)  
+* [Usage](#Usage) 
+* [Demo](#Demo) 
 * [Contact](#contact)
 
 <!-- installation -->
@@ -42,6 +44,16 @@ Now in Ultimate Team Web App, under Settings Menu , you will have Rating Filter.
 
 * To use this tool, the user should have access to the transfer market. 
 * Hence play the required number of games to get access to the transfer market before trying this tool. 
+
+<!-- Usage -->
+## Usage
+
+* For special cards, rating should be same as basic card rating of the player and then select the card type in rarity. 
+* For example to search Ansu Fati TOTW, the rating as to be given as 76 and then in rarity select Team of the Week. 
+
+<!-- Demo -->
+## Demo
+![](Demo.gif)
 
 <!-- CONTACT -->
 ## Contact
