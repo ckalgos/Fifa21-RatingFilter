@@ -165,8 +165,8 @@
             window.hasLoadedAll = true;
         }
 
-        if (window.hasLoadedAll && jQuery("span:contains('Playtime')").length) {           
-            if (jQuery("span:contains('Playtime')").first().length) {
+        if (window.hasLoadedAll && jQuery(".ut-app-settings-actions").length) {           
+            if (jQuery(".ut-app-settings-actions").first().length) {
                 if (!jQuery('#snipe_rating_filter').length) { 
                     jQuery(".ut-app-settings-actions").first().append(`<div class="ut-item-search-view">
                            <div class="search-price-header">
