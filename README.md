@@ -48,6 +48,7 @@ Now in Ultimate Team Web App, under Settings Menu , you will have Rating Filter.
 <!-- Usage -->
 ## Usage
 
+* Update chrome to the latest version.
 * For special cards, rating should be same as basic card rating of the player and then select the card type in rarity. 
 * For example to search Ansu Fati TOTW, the rating as to be given as 76 and then in rarity select Team of the Week. 
 
