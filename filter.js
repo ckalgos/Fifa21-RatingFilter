@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         FUT 21 Filters with TamperMonkey
 // @namespace    http://tampermonkey.net/
-// @version      1.0.2
+// @version      1.0.3
 // @updateURL    https://github.com/chithakumar13/Fifa-AutoBuyer/blob/master/autobuyer.js
 // @description  FUT Snipping Tool
 // @author       CK Algos
@@ -54,7 +54,7 @@
             response.data = {};
             response.data.items = successResult.response.items;
             if (successResult.success && successResult.response.items.length > 0) {
-                this._marketRepository.setPageCache(pageNum, successResult.response.items, Date.now(), successResult.maxAge > 0 ? successResult.maxAge : null);
+                this.marketRepository.setPageCache(pageNum, successResult.response.items, Date.now(), successResult.maxAge > 0 ? successResult.maxAge : null);
             }
             result.notify(response);
         }
@@ -63,11 +63,11 @@
             response.success = !![];
             response.status = refreshResult.success ? HttpStatusCode['OK'] : HttpStatusCode.NOT_MODIFIED;
             response.data = {};
-            response.data.items = this._marketRepository.getPageCache(pageNum);
+            response.data.items = this.marketRepository.getPageCache(pageNum);
             result.notify(response);
         }
-        if (!this._marketRepository.isCacheExpired(pageNum)) {
-            var currPageCache = this._marketRepository.getPageCache(pageNum);
+        if (!this.marketRepository.isCacheExpired(pageNum)) {
+            var currPageCache = this.marketRepository.getPageCache(pageNum);
             if (currPageCache.length > 0) {
                 this.refreshAuctions(currPageCache).observe(this, refreshSuccess);
             } else {
