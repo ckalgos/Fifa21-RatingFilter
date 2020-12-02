@@ -4,6 +4,7 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url] 
+[![Total Downloads](https://img.shields.io/github/downloads/chithakumar13/Fifa21-RatingFilter/total.svg)]()
 [![LinkedIn][linkedin-shield]][linkedin-url] 
 <p align="center"> 
   <h3 align="center">Fifa21 RatingFilter</h3>
@@ -49,6 +50,7 @@ Now in Ultimate Team Web App, under Settings Menu , you will have Rating Filter.
 ## Usage
 
 * Update chrome to the latest version.
+* Use this link to access web app, https://www.ea.com/fifa/ultimate-team/web-app/
 * For special cards, rating should be same as basic card rating of the player and then select the card type in rarity. 
 * For example to search Ansu Fati TOTW, the rating as to be given as 76 and then in rarity select Team of the Week. 
 
