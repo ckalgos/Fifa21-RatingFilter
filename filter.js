@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         FUT 21 Filters with TamperMonkey
 // @namespace    http://tampermonkey.net/
-// @version      1.0.3
+// @version      1.0.4
 // @updateURL    https://github.com/chithakumar13/Fifa-AutoBuyer/blob/master/autobuyer.js
 // @description  FUT Snipping Tool
 // @author       CK Algos
@@ -17,7 +17,7 @@
         this._jsClassName = "UTSearchEnhancerViewController";
     };    
 
-    utils.JS.inherits(UTSearchEnhancerViewController, UTMarketSearchResultsViewController);
+    JSUtils.inherits(UTSearchEnhancerViewController, UTMarketSearchResultsViewController);
 
     var db = openDatabase('filter', '1.0', 'FIFA Filter DB', 2 * 1024 * 1024);  
 
@@ -78,8 +78,8 @@
                 result.notify(response);
             }
         } else {
-            var currConfigObj = gConfigurationModel.getConfigObject(models.ConfigurationModel.KEY_ITEMS_PER_PAGE);
-            var currItemCount = utils.JS.isValid(currConfigObj) ? currConfigObj[models.ConfigurationModel.ITEMS_PER_PAGE.TRANSFER_MARKET] : 20;
+            var currConfigObj = getAppMain().getConfigRepository().getConfigObject(EAConfigurationRepository.KEY_ITEMS_PER_PAGE);
+            var currItemCount = JSUtils.isValid(currConfigObj) ? currConfigObj[EAConfigurationRepository.ITEMS_PER_PAGE.TRANSFER_MARKET] : 20;
             searchCriteria.offset = currItemCount * (pageNum - 1);
             searchCriteria.count = currItemCount + 1;
             accessobjects.Item.searchTransferMarket(searchCriteria).observe(this, successSearch);
@@ -140,12 +140,12 @@
                     if (!this._stadiumViewmodel || this._searchCriteria.type !== SearchType.VANITY && this._searchCriteria.type !== SearchType.CLUB_INFO && this._searchCriteria.type !== SearchType.BALL || (a = this._stadiumViewmodel.getStadiumProgression(this._searchCriteria.subtypes)),
                         s.setItems(this._paginationViewModel.getCurrentPageItems(), a),
                         s.setPaginationState(1 < l, t.data.items.length > i),
-                        utils.JS.isValid(this._compareItem) && !this._squadContext) {
-                        var r = utils.JS.find(o, function (e) {
+                        JSUtils.isValid(this._compareItem) && !this._squadContext) {
+                        var r = JSUtils.find(o, function (e) {
                             return e.getAuctionData().tradeId === this._compareItem.getAuctionData().tradeId
                         }
                             .bind(this));
-                        utils.JS.isValid(r) ? this._pinnedListItem.setItem(r) : this._paginationViewModel.setPinnedItem(this._compareItem)
+                        JSUtils.isValid(r) ? this._pinnedListItem.setItem(r) : this._paginationViewModel.setPinnedItem(this._compareItem)
                     } else
                         !isPhone() && 0 < o.length && s.selectListRow(this._paginationViewModel.getCurrentItem().id)
                 }
@@ -158,7 +158,7 @@
         this._jsClassName = 'UTSnipeFilterViewController';
     };
 
-    utils.JS.inherits(UTSnipeFilterViewController, UTAppSettingsViewController); 
+    JSUtils.inherits(UTSnipeFilterViewController, UTAppSettingsViewController); 
 
     window.snipeFilterInterface = function () {
         if (services.Localization && jQuery('h1.title').html() === services.Localization.localize("navbar.label.home")) {
